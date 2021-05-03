@@ -6,6 +6,7 @@
 ## Part 1:
 
 LINK TO YOUR PUBLISHED SITE
+https://fativan.github.io/Lab5/
 
 ## Part 2:
 
