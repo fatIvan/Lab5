@@ -1,16 +1,47 @@
 // script.js
 
 const img = new Image(); // used to load image from <input> and draw to canvas
+var canvas = document.querySelector("canvas");
+const context = canvas.getContext('2d');
+const file = document.getElementById("image-input");
+const form = document.getElementById("generate-meme");
+const clear = document.querySelector("reset");
 
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
   // TODO
+  context.clearRect(0,0,canvas.width,canvas.height);
+  document.querySelector("reset").disabled = false;
+  document.querySelector("button").disabled = false;
+  document.getElementById("submit").disabled = false;
+
+  context.fillStyle = "000";
+  context.fillRect(0,0,400,400);
+  
+  
+
 
   // Some helpful tips:
   // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
   // - Clear the form when a new image is selected
   // - If you draw the image to canvas here, it will update as soon as a new image is selected
+  
+  var dimensions = getDimmensions(400,400,img.width,img.height);
+
+
+  context.drawImage
 });
+
+file.addEventListener("change", () => {
+  img.alt
+});
+
+
+
+
+
+
+
 
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
