@@ -5,43 +5,81 @@ var canvas = document.querySelector("canvas");
 const context = canvas.getContext('2d');
 const file = document.getElementById("image-input");
 const form = document.getElementById("generate-meme");
-const clear = document.querySelector("reset");
+const clear = document.querySelector("[type='reset']");
+const readText = document.querySelector("[type='button']");
+const generate = document.querySelector("[type='submit']");
+var textTop = document.getElementById("text-top");
+var textBottom = document.getElementById("text-bottom");
+var volume = document.getElementById("volume-group");
+
+
 
 // Fires whenever the img object loads a new image (such as with img.src =)
 img.addEventListener('load', () => {
   // TODO
   context.clearRect(0,0,canvas.width,canvas.height);
-  document.querySelector("reset").disabled = false;
-  document.querySelector("button").disabled = false;
-  document.getElementById("submit").disabled = false;
-
-  context.fillStyle = "000";
+  
+  context.fillStyle = 'black';
   context.fillRect(0,0,400,400);
   
+  clear.disabled = true;
+  readText.disable = true;
+  generate.disable = false;
   
-
-
-  // Some helpful tips:
-  // - Fill the whole Canvas with black first to add borders on non-square images, then draw on top
-  // - Clear the form when a new image is selected
-  // - If you draw the image to canvas here, it will update as soon as a new image is selected
   
-  var dimensions = getDimmensions(400,400,img.width,img.height);
-
-
-  context.drawImage
+  let dimensions = getDimmensions(400,400,img.width,img.height);
+  context.drawImage(img,dimensions["startX"],dimensions["startY"], dimensions["width"],dimensions["height"]);
+  
 });
+
+
 
 file.addEventListener("change", () => {
-  img.alt
+  var binaryData = [];
+  binaryData.push(file.files[0]);
+  img.src = window.URL.createObjectURL(new Blob(binaryData, {type:"application/zip"}));
+  img.alt = file.files[0].name;
 });
 
 
+form.addEventListener("submit", (e)=>{
+  context.fillStyle = "white";
+  context.font = 'bold 48px serif';
+  context.textAlign = "center";
+  context.fillText(textTop.value,200,40);
+  context.textAlign = "center"
+  context.fillText(textBottom.value,200,380);
+  generate.disabled = true;
+  clear.disabled = false;
+  readText.disabled = false;
+  e.preventDefault();
+});
 
 
+clear.addEventListener("click", ()=>{
+  context.clearRect(0,0,canvas.width, canvas.height);
+  form.reset();
+  generate.disabled = false;
+  clear.disabled = true;
+  readText.disabled = true;
+});
 
 
+function playText(text){
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 1;
+  speechSynthesis.speak(utterance);
+}
 
+
+readText.addEventListener("click", ()=>{
+  playText(textTop.value);
+  playText(textBottom.value);
+})
+
+volume.addEventListener("input", ()=>{
+  
+});
 
 /**
  * Takes in the dimensions of the canvas and the new image, then calculates the new
